@@ -1242,30 +1242,143 @@ hr {
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — TABLETTE & MOBILE
+   ══════════════════════════════════════════════════════════ */
+
 @media (max-width: 1024px) {
   :root { --sidebar-w: 220px; }
   .metrics-grid { grid-template-columns: repeat(2, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* ── Tablette / Mobile ───────────────────────────────────── */
 @media (max-width: 768px) {
-  .app-layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .topbar, .main-content { grid-column: 1; }
-  .auth-wrap { grid-template-columns: 1fr; }
-  .auth-left { display: none; }
-  .hero { grid-template-columns: 1fr; }
+
+  /* Layout principal */
+  .app-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--topbar-h) 1fr;
+  }
+
+  /* Sidebar — tiroir latéral caché par défaut */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Overlay sombre quand sidebar ouverte */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 199;
+    backdrop-filter: blur(4px);
+  }
+
+  .sidebar-overlay.open { display: block; }
+
+  /* Topbar — afficher le bouton hamburger */
+  .topbar {
+    grid-column: 1;
+    padding: 0 16px;
+  }
+
+  .hamburger-btn {
+    display: flex !important;
+  }
+
+  /* Contenu principal */
+  .main-content {
+    grid-column: 1;
+    padding: 16px;
+    overflow-x: hidden;
+  }
+
+  /* Grilles */
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .admin-grid { grid-template-columns: 1fr; }
-  .grid-3 { grid-template-columns: 1fr; }
-  .grid-2 { grid-template-columns: 1fr; }
-  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { grid-template-columns: 1fr; }
+
+  /* Auth */
+  .auth-wrap { grid-template-columns: 1fr; border-radius: var(--radius-lg); }
+  .auth-left { display: none; }
+  .auth-right { padding: 32px 24px; }
+
+  /* Hero banner */
+  .hero-banner { padding: 24px 20px; }
+  .hero-banner-content { flex-direction: column !important; gap: 16px !important; }
+  .hero-banner-content > div:first-child { width: 60px !important; height: 60px !important; }
+  .hero-greeting { font-size: 1.4rem; }
+
+  /* Topbar titre */
+  .topbar-title { font-size: 0.95rem; }
+  .topbar-sub { display: none; }
+  .pill { display: none; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 500px; }
+
+  /* Profile cards */
+  .profile-card { flex-wrap: wrap; }
+  .profile-actions { flex-direction: row; flex-wrap: wrap; width: 100%; margin-top: 8px; }
+  .profile-list { max-height: none; }
+
+  /* Formulaires */
+  .form-grid .grid-2 { grid-template-columns: 1fr; }
+
+  /* Metric cards */
+  .metric-value { font-size: 1.6rem; }
+
+  /* Boutons full sur mobile */
+  .button { font-size: 0.88rem; }
 }
 
+/* ── Petit mobile ────────────────────────────────────────── */
 @media (max-width: 480px) {
-  .metrics-grid { grid-template-columns: 1fr; }
-  .main-content { padding: 16px; }
-  .hero-banner { padding: 24px 20px; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .main-content { padding: 12px; }
+  .hero-banner { padding: 20px 16px; }
+  .card-pad { padding: 16px; }
+  .auth-right { padding: 24px 16px; }
+
+  /* Cacher email dans topbar sur très petit écran */
+  .topbar-actions .pill { display: none; }
+
+  /* Tables scroll horizontal */
+  table { min-width: 420px; font-size: 0.82rem; }
+  th, td { padding: 10px 12px; }
+}
+
+/* ── Bouton hamburger — caché sur desktop ────────────────── */
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--glass-2);
+  border: 1px solid var(--border-2);
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 /* ── Grade table inputs ──────────────────────────────────── */
 #grade-table .input { width: 110px; padding: 9px 12px; font-size: 0.85rem; }
+

@@ -258,15 +258,19 @@ function renderTopbar() {
   };
   return `
     <header class="topbar">
-      <div>
-        <div class="topbar-title">${escapeHtml(titles[state.activeNav] || 'Tableau de bord')}</div>
-        <div class="topbar-sub">${new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="hamburger-btn" id="hamburger-btn">☰</button>
+        <div>
+          <div class="topbar-title">${escapeHtml(titles[state.activeNav] || 'Tableau de bord')}</div>
+          <div class="topbar-sub">${new Date().toLocaleDateString('fr-FR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>
+        </div>
       </div>
       <div class="topbar-actions">
         <div class="pill">✉️ ${escapeHtml(state.user?.email || '')}</div>
         <span class="badge ${getRoleColor(state.user?.role)}">${getRoleLabel(state.user?.role)}</span>
       </div>
-    </header>`;
+    </header>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>`;
 }
 
 function renderMainPanel(metrics) {
@@ -1108,10 +1112,30 @@ function attachEventHandlers() {
   /* Logout */
   document.getElementById('logout-btn')?.addEventListener('click', logout);
 
+  /* Hamburger menu mobile */
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+
+  function openSidebar() {
+    sidebar?.classList.add('open');
+    overlay?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    sidebar?.classList.remove('open');
+    overlay?.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  hamburgerBtn?.addEventListener('click', openSidebar);
+  overlay?.addEventListener('click', closeSidebar);
+
   /* Navigation sidebar */
   document.querySelectorAll('.nav-item[data-nav]').forEach(item => {
     item.addEventListener('click', () => {
       state.activeNav = item.getAttribute('data-nav');
+      closeSidebar();
       render();
     });
   });
