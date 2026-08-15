@@ -1,0 +1,8 @@
+school.db
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+*.egg-info/
+dist/
