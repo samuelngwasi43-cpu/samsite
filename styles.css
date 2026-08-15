@@ -394,6 +394,8 @@ img { display: block; max-width: 100%; }
   grid-template-columns: var(--sidebar-w) 1fr;
   grid-template-rows: var(--topbar-h) 1fr;
   min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────── */
@@ -568,6 +570,7 @@ img { display: block; max-width: 100%; }
   position: sticky;
   top: 0;
   z-index: 10;
+  height: var(--topbar-h);
 }
 
 .topbar-title {
@@ -592,8 +595,9 @@ img { display: block; max-width: 100%; }
 /* ── Main content ────────────────────────────────────────── */
 .main-content {
   grid-column: 2;
-  padding: 28px;
+  padding: 24px;
   overflow-y: auto;
+  height: calc(100vh - var(--topbar-h));
 }
 
 /* ══════════════════════════════════════════════════════════
