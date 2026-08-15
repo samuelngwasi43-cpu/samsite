@@ -1158,7 +1158,7 @@ function attachEventHandlers() {
 
   /* Délégation de clics (actions sur boutons dynamiques) */
   document.body.addEventListener('click', async (e) => {
-    const t = e.target instanceof HTMLElement ? e.target : null;
+    const t = (e.target instanceof HTMLElement ? e.target : null)?.closest('[data-action]');
     if (!t) return;
     const action = t.dataset.action;
     const uid  = t.getAttribute('data-user-id');
@@ -1172,7 +1172,7 @@ function attachEventHandlers() {
       const el = document.getElementById(`pw-display-${uid}`);
       if (!el) return;
       const pw = t.getAttribute('data-pw') || '(chiffré)';
-      if (el.textContent === '••••••••') {
+      if (el.textContent.trim() === '••••••••') {
         el.textContent = pw;
         el.style.color = 'var(--gold-light)';
         t.textContent = '🙈';
